@@ -1,8 +1,5 @@
 package com.game.view;
 
-import com.game.main.DirectEnum;
-import com.game.main.WaveThread;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -93,25 +90,29 @@ public class Window1 extends JFrame {
 
         @Override
         public void keyPressed(KeyEvent e) {
-            boolean moved;
+            boolean moved = false;
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_ESCAPE:
                     initGame();
                     break;
                 case KeyEvent.VK_LEFT:
                     moved = moveLeft();
+                    inovkeCreateTile();
                     checkGameOver(moved);
                     break;
                 case KeyEvent.VK_RIGHT:
                     moved = moveRight();
+                    inovkeCreateTile();
                     checkGameOver(moved);
                     break;
                 case KeyEvent.VK_UP:
                     moved = moveUp();
+                    inovkeCreateTile();
                     checkGameOver(moved);
                     break;
                 case KeyEvent.VK_DOWN:
                     moved = moveDown();
+                    inovkeCreateTile();
                     checkGameOver(moved);
                     break;
             }
@@ -129,6 +130,7 @@ public class Window1 extends JFrame {
             createTile();
             createTile();
 
+            isMove = false;
             isOver = false;
         }
 
@@ -161,12 +163,16 @@ public class Window1 extends JFrame {
             return list;
         }
 
+        private void inovkeCreateTile(){
+            if(isMove){
+                createTile();
+                isMove = false;
+            }
+        }
+
         private void checkGameOver(boolean moved) {
             lscore.setText(score + "");
             if (!getBlankTiles().isEmpty()) {
-                if(moved){
-                    createTile();
-                }
                 return;
             }
             for (int i = 0; i < 3; i++) {
